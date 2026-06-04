@@ -4,227 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>회의 전자서명 등록부</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --p:#e8956d;--pl:#f2b899;--pd:#c9714a;
-  --bg:#fdf6f0;--bg2:#faeee4;--w:#fff;
-  --t:#4a3020;--tm:#9a7860;--b:#edd8c8;
-  --ok:#6bbf7a;--err:#d4736a;
-  --sh:0 4px 20px rgba(180,100,60,.10);
-  --shl:0 8px 36px rgba(180,100,60,.16);
-  --r:16px;--rs:10px;
-}
+:root{--p:#e8956d;--pl:#f2b899;--pd:#c9714a;--bg:#fdf6f0;--bg2:#faeee4;--w:#fff;--t:#4a3020;--tm:#9a7860;--b:#edd8c8;--ok:#6bbf7a;--err:#d4736a;--sh:0 4px 20px rgba(180,100,60,.10);--shl:0 8px 36px rgba(180,100,60,.16);--r:16px;--rs:10px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;padding-bottom:80px}
-
-/* 헤더 */
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;padding-bottom:60px}
 .hdr{background:linear-gradient(135deg,#c9714a,#e8956d 55%,#f2b899);color:#fff;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(180,100,60,.28)}
 .hdr-logo{display:flex;align-items:center;gap:10px}
 .hdr-icon{width:36px;height:36px;background:rgba(255,255,255,.25);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px}
 .hdr-title{font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700;line-height:1.25}
-.hdr-sub{font-size:11px;color:rgba(255,255,255,.7);font-weight:300}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,.7)}
 .hdr-btn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:500}
-
-/* 탭 */
+/* 탭 - 관리자만 */
 .tabs{background:#fff;border-bottom:1.5px solid var(--b);display:flex;overflow-x:auto;padding:0 6px;scrollbar-width:none;position:sticky;top:62px;z-index:100}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:11px 14px;border:none;background:none;color:var(--tm);font-size:13px;font-weight:500;font-family:'Noto Sans KR',sans-serif;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s}
 .tab.on{color:var(--pd);border-bottom-color:var(--p);font-weight:700}
-
-/* 뷰 */
-.view{display:none;padding:16px 14px;max-width:600px;margin:0 auto}
+.view{display:none;padding:16px 14px;max-width:540px;margin:0 auto}
 .view.on{display:block}
-
-/* 카드 */
 .card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:17px;margin-bottom:13px;border:1px solid rgba(237,200,170,.5)}
 .card-title{font-size:11px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:13px}
-
-/* 폼 */
 .fg{margin-bottom:13px}
 .fl{display:block;font-size:13px;font-weight:600;color:var(--t);margin-bottom:5px}
-.fi,.fs{width:100%;padding:10px 12px;border:1.5px solid var(--b);border-radius:var(--rs);font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--t);background:var(--bg);transition:border-color .2s;appearance:none}
+.fi,.fs{width:100%;padding:10px 12px;border:1.5px solid var(--b);border-radius:var(--rs);font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--t);background:var(--bg);appearance:none}
 .fi:focus,.fs:focus{outline:none;border-color:var(--p);background:#fff}
-.sw{position:relative}
-.sw::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--tm);pointer-events:none}
-
-/* 버튼 */
+.sw{position:relative}.sw::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--tm);pointer-events:none}
 .btn{padding:11px 16px;border-radius:var(--rs);font-size:14px;font-family:'Noto Sans KR',sans-serif;font-weight:600;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:5px}
-.btn-p{background:var(--p);color:#fff;width:100%}
-.btn-p:hover{background:var(--pd)}
+.btn-p{background:var(--p);color:#fff;width:100%}.btn-p:hover{background:var(--pd)}
 .btn-ok{background:#a8d8b0;color:var(--t);width:100%;font-weight:700}
-.btn-ok:hover{background:#7bbf87}
-.btn-o{background:transparent;border:1.5px solid var(--b);color:var(--tm)}
-.btn-o:hover{border-color:var(--p);color:var(--pd)}
+.btn-o{background:transparent;border:1.5px solid var(--b);color:var(--tm)}.btn-o:hover{border-color:var(--p);color:var(--pd)}
 .btn-sm{padding:5px 11px;font-size:12px;width:auto}
 .btn-xs{padding:3px 8px;font-size:11px;width:auto;border-radius:6px}
 .btn-del{background:transparent;border:1.5px solid #f4c4c0;color:var(--err);font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
-
-/* 배너 */
-.banner{background:linear-gradient(135deg,#c9714a,#e8956d);border-radius:var(--r);padding:15px;color:#fff;margin-bottom:11px;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
-.banner:hover{transform:translateY(-2px);box-shadow:var(--shl)}
+/* 서명화면 */
+.banner{background:linear-gradient(135deg,#c9714a,#e8956d);border-radius:var(--r);padding:15px;color:#fff;margin-bottom:10px;cursor:pointer;transition:transform .2s}
+.banner:hover{transform:translateY(-2px)}
 .banner.sel{background:linear-gradient(135deg,#7bbf87,#a8d8b0);color:var(--t)}
 .banner-name{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;margin-bottom:3px}
 .banner-type{font-size:11px;opacity:.75}
-.banner-sessions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.sc{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 11px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.sess-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.sc{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
 .sc:hover{background:rgba(255,255,255,.35)}
-.sc.sel{background:#fff;color:#c9714a;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.sc.sel{background:#fff;color:#c9714a;font-weight:700}
 .no-sess{font-size:12px;opacity:.6;font-style:italic}
-
-/* 명단 그리드 */
-.dept-lbl{font-size:11px;font-weight:700;color:var(--tm);padding:5px 9px;background:var(--bg2);border-radius:6px;margin-bottom:6px}
-.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
-.mc{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rs);padding:9px 5px;text-align:center;cursor:pointer;transition:all .15s;position:relative}
-.mc:hover{border-color:var(--pl);background:#fff;transform:translateY(-1px);box-shadow:var(--sh)}
+.dept-lbl{font-size:11px;font-weight:700;color:var(--tm);padding:5px 9px;background:var(--bg2);border-radius:6px;margin-bottom:7px}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.mc{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rs);padding:11px 5px;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.mc:hover{border-color:var(--pl);background:#fff;transform:translateY(-1px)}
+.mc:active{transform:scale(.96)}
 .mc.signed{background:#f0fdf4;border-color:#7bbf87;cursor:default}
 .mc.picking{background:#fff8f0;border-color:var(--p);border-width:2px}
-.mc-name{font-size:13px;font-weight:600}
+.mc-name{font-size:13px;font-weight:700}
 .mc-role{font-size:10px;color:var(--tm);margin-top:2px}
 .mc-badge{position:absolute;top:-5px;right:-5px;width:17px;height:17px;background:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;border:2px solid #fff}
-
-/* 서명 */
 .sig-wrap{border:2px dashed var(--b);border-radius:var(--rs);background:#fafcff;position:relative;overflow:hidden}
 .sig-wrap.has-sig{border-style:solid;border-color:var(--p)}
-#sigCanvas{display:block;width:100%;height:145px;cursor:crosshair;touch-action:none}
+#sigCanvas{display:block;width:100%;height:150px;cursor:crosshair;touch-action:none}
 .sig-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#ddd;pointer-events:none;text-align:center;line-height:1.6}
-
-/* 성공 */
-.success{text-align:center;padding:22px 14px}
-.succ-icon{width:66px;height:66px;background:linear-gradient(135deg,#e8956d,#f2b899);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 13px;font-size:28px}
+.succ{text-align:center;padding:22px 14px}
+.succ-icon{width:68px;height:68px;background:linear-gradient(135deg,#e8956d,#f2b899);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 13px;font-size:30px}
 .succ-title{font-family:'Noto Serif KR',serif;font-size:20px;margin-bottom:5px}
-.sig-preview{width:110px;height:55px;object-fit:contain;border:1px solid var(--b);border-radius:6px;margin:13px auto;display:block;background:#fff}
-
+.sig-prev{width:110px;height:55px;object-fit:contain;border:1px solid var(--b);border-radius:6px;margin:13px auto;display:block;background:#fff}
 /* PIN */
 .pin-wrap{text-align:center;padding:36px 18px}
 .pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:13px}
-.pin-d{width:50px;height:54px;border:2px solid var(--b);border-radius:10px;text-align:center;font-size:22px;font-weight:700;background:var(--bg);color:var(--t);font-family:'Noto Sans KR',sans-serif;transition:border-color .2s}
+.pin-d{width:50px;height:54px;border:2px solid var(--b);border-radius:10px;text-align:center;font-size:22px;font-weight:700;background:var(--bg);color:var(--t);font-family:'Noto Sans KR',sans-serif}
 .pin-d:focus{outline:none;border-color:var(--p);background:#fff}
-
-/* 현황 테이블 */
+/* 현황 */
 .mtg-grp{margin-bottom:18px;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
 .mtg-hdr{background:linear-gradient(135deg,#c9714a,#e8956d);color:#fff;padding:11px 15px;display:flex;justify-content:space-between;align-items:center}
 .mtg-hdr-name{font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700}
 .mtg-hdr-meta{font-size:11px;opacity:.8;margin-top:2px}
-.cnt-badge{background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 9px;font-size:12px;font-weight:700;white-space:nowrap}
+.cnt-badge{background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 9px;font-size:12px;font-weight:700}
 .stbl{width:100%;border-collapse:collapse;font-size:13px}
 .stbl th{background:var(--bg2);padding:8px 11px;text-align:left;font-weight:600;color:var(--tm);font-size:11px;border-bottom:1px solid var(--b)}
 .stbl td{padding:8px 11px;border-bottom:1px solid var(--b);vertical-align:middle;background:#fff}
 .stbl tr:last-child td{border-bottom:none}
 .sig-img{width:80px;height:36px;object-fit:contain;background:#fff;border:1px solid var(--b);border-radius:4px}
 .rtag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;background:#faeadc;color:#c9714a}
-.rtag.chair{background:#fff0d8;color:#b07a20}
-.rtag.boss{background:#fde8e0;color:#c05040}
-
-/* 필터 */
+.rtag.chair{background:#fff0d8;color:#b07a20}.rtag.boss{background:#fde8e0;color:#c05040}
 .frow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
-.fchip{padding:4px 12px;border-radius:20px;border:1.5px solid var(--b);background:#fff;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--tm);cursor:pointer;transition:all .15s}
+.fchip{padding:4px 12px;border-radius:20px;border:1.5px solid var(--b);background:#fff;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--tm);cursor:pointer}
 .fchip.on{background:var(--p);border-color:var(--p);color:#fff;font-weight:600}
-
-/* 토스트 */
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--t);color:#fff;padding:11px 20px;border-radius:28px;font-size:13px;font-weight:500;box-shadow:var(--shl);z-index:9999;transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.ok{background:var(--ok)}
-.toast.err{background:var(--err)}
-
-/* 모달 */
+.toast.show{transform:translateX(-50%) translateY(0)}.toast.ok{background:var(--ok)}.toast.err{background:var(--err)}
 .modal{position:fixed;inset:0;background:rgba(80,40,20,.35);backdrop-filter:blur(3px);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal.open{opacity:1;pointer-events:all}
-.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:18px 16px 34px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:18px 16px 34px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
 .modal.open .modal-sheet{transform:translateY(0)}
 .modal-handle{width:38px;height:4px;background:var(--b);border-radius:2px;margin:0 auto 16px}
 .modal-title{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;margin-bottom:15px}
-
-/* 캘린더 */
 .cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
 .cal-nav{background:none;border:none;font-size:20px;cursor:pointer;color:var(--p);padding:4px 9px;border-radius:8px}
-.cal-nav:hover{background:var(--bg2)}
-.cal-my{font-weight:700;font-size:15px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 .cal-dow{text-align:center;font-size:11px;font-weight:700;color:var(--tm);padding:3px 0}
 .cal-day{text-align:center;font-size:13px;padding:7px 2px;border-radius:8px;cursor:pointer;transition:all .15s;color:var(--t)}
-.cal-day:hover{background:var(--pl);color:#fff}
-.cal-day.today{font-weight:700;color:var(--pd)}
-.cal-day.sel{background:var(--p);color:#fff;font-weight:700}
-.cal-day.sun{color:#d4736a}
-.cal-day.sel.sun{color:#fff}
-.cal-day.empty{cursor:default}
+.cal-day:hover{background:var(--pl);color:#fff}.cal-day.today{font-weight:700;color:var(--pd)}
+.cal-day.sel{background:var(--p);color:#fff;font-weight:700}.cal-day.sun{color:#d4736a}.cal-day.sel.sun{color:#fff}.cal-day.empty{cursor:default}
 .time-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:13px}
 .time-sel{padding:9px 13px;border:1.5px solid var(--b);border-radius:var(--rs);font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;color:var(--t);background:var(--bg);min-width:68px;text-align:center;appearance:none;cursor:pointer}
-
-/* 멤버 리스트 */
 .mi{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;background:var(--bg);border-radius:var(--rs);margin-bottom:5px;border:1px solid var(--b)}
-.mi-name{font-weight:600;font-size:13px}
-.mi-meta{font-size:11px;color:var(--tm);margin-top:2px}
-
-/* 세션 아이템 */
+.mi-name{font-weight:600;font-size:13px}.mi-meta{font-size:11px;color:var(--tm);margin-top:2px}
 .si{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;background:var(--bg);border-radius:var(--rs);margin-bottom:5px;border:1px solid var(--b)}
-
-/* 유틸 */
 .divider{height:1px;background:var(--b);margin:11px 0}
 .ir{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
-.ir .l{color:var(--tm)} .ir .v{font-weight:600}
+.ir .l{color:var(--tm)}.ir .v{font-weight:600}
 .loading{text-align:center;padding:34px;color:var(--tm);font-size:13px}
 .spin{width:28px;height:28px;border:3px solid var(--b);border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 9px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:34px 18px;color:var(--tm)}
-.empty-icon{font-size:36px;margin-bottom:9px}
+.dept-hdr{background:linear-gradient(90deg,#f2b899,#fbe8d8);color:var(--t);padding:7px 13px;border-radius:var(--rs);margin-bottom:5px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.cfg-input{width:100%;padding:10px 12px;border:1.5px solid var(--b);border-radius:var(--rs);font-size:13px;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);margin-bottom:7px}
+.cfg-input:focus{outline:none;border-color:var(--p)}
 .footer{text-align:center;padding:18px 14px 6px;color:var(--tm);font-size:11px;line-height:1.9}
 .footer strong{color:var(--pd)}
-.dept-hdr{background:linear-gradient(90deg,#f2b899,#fbe8d8);color:var(--t);padding:7px 13px;border-radius:var(--rs);margin-bottom:5px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
-
-/* 초기 마법사 */
-.wizard{position:fixed;inset:0;background:linear-gradient(160deg,#fdf6f0,#faeee4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.wizard-card{background:#fff;border-radius:24px;padding:28px 24px;max-width:440px;width:100%;box-shadow:0 8px 40px rgba(180,100,60,.18)}
-.wizard-icon{font-size:48px;text-align:center;margin-bottom:14px}
-.wizard-title{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;text-align:center;margin-bottom:6px;color:var(--t)}
-.wizard-sub{font-size:13px;color:var(--tm);text-align:center;line-height:1.6;margin-bottom:22px}
-.wizard-step{display:none}
-.wizard-step.on{display:block}
-.step-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
-.sdot{width:8px;height:8px;border-radius:50%;background:var(--b);transition:all .3s}
-.sdot.on{background:var(--p);width:22px;border-radius:4px}
-.sdot.done{background:var(--ok)}
-.cfg-input{width:100%;padding:10px 12px;border:1.5px solid var(--b);border-radius:var(--rs);font-size:14px;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);margin-bottom:8px}
-.cfg-input:focus{outline:none;border-color:var(--p)}
-.hint-box{background:var(--bg2);border-left:3px solid var(--p);padding:10px 12px;border-radius:var(--rs);font-size:12px;line-height:1.7;margin-bottom:14px}
-
 @media print{.hdr,.tabs,.no-print,.footer{display:none!important}body{background:#fff;padding:0}.view{display:block!important;padding:0}.card{box-shadow:none;border:1px solid #ddd}}
 </style>
 </head>
 <body>
 
-<!-- 초기 설정 마법사 -->
-<div class="wizard" id="wizard" style="display:none;">
-  <div class="wizard-card">
-    <div class="wizard-icon">📋</div>
-    <div class="wizard-title">회의 전자서명 등록부</div>
-    <div class="wizard-sub">처음 사용하시는군요!<br>빠르게 설정하고 바로 시작해요.</div>
-    <div class="step-dots">
-      <div class="sdot on" id="sd1"></div>
-      <div class="sdot" id="sd2"></div>
-    </div>
-
-    <!-- Step 1: 학교명 + PIN -->
-    <div class="wizard-step on" id="ws1">
-      <div class="fg"><label class="fl">🏫 학교명</label><input class="cfg-input" id="w_school" placeholder="예: 곡선중학교"></div>
-      <div class="fg"><label class="fl">🔐 관리자 비밀번호 (숫자 4자리)<br><span style="font-size:11px;color:var(--tm);font-weight:400;">현황 열람·관리 시 사용합니다</span></label><input class="cfg-input" id="w_pin" type="password" placeholder="예: 1234" maxlength="4" inputmode="numeric"></div>
-      <button class="btn btn-p" onclick="wNext(1)">다음 →</button>
-    </div>
-
-    <!-- Step 2: 완료 -->
-    <div class="wizard-step" id="ws2">
-      <div style="text-align:center;padding:10px 0 20px;">
-        <div style="font-size:52px;margin-bottom:12px;">🎉</div>
-        <div style="font-size:18px;font-weight:700;margin-bottom:8px;">설정 완료!</div>
-        <div style="font-size:13px;color:var(--tm);line-height:1.6;">이제 회의와 명단을 추가하고<br>바로 서명을 받을 수 있어요.</div>
-      </div>
-      <button class="btn btn-ok" onclick="closeWizard()">✓ 시작하기</button>
-    </div>
-  </div>
-</div>
-
-<!-- 헤더 -->
 <div class="hdr">
   <div class="hdr-logo">
     <div class="hdr-icon">📋</div>
@@ -233,164 +131,148 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
       <div class="hdr-sub" id="hdrSub">로딩 중...</div>
     </div>
   </div>
-  <button class="hdr-btn no-print" onclick="goTab('admin')">🔐 관리자</button>
+  <button class="hdr-btn no-print" id="adminBtn" onclick="toggleAdmin()" style="display:none;">🔐 관리자</button>
 </div>
 
-<!-- 탭 -->
-<div class="tabs no-print">
-  <button class="tab on" id="tab-sign" onclick="goTab('sign')">✏️ 서명하기</button>
-  <button class="tab" id="tab-admin" onclick="goTab('admin')">📊 현황</button>
+<!-- 서명 탭 (기본 - 모두 접근) -->
+<div class="tabs no-print" id="adminTabs" style="display:none;">
+  <button class="tab on" id="tab-admin" onclick="goTab('admin')">📊 현황</button>
   <button class="tab" id="tab-members" onclick="goTab('members')">👥 명단관리</button>
   <button class="tab" id="tab-settings" onclick="goTab('settings')">⚙️ 설정</button>
 </div>
 
-<!-- ── 서명하기 ── -->
-<div class="view on" id="view-sign">
+<!-- ── 서명 화면 (기본) ── -->
+<div id="signArea">
   <div class="loading" id="signLoading"><div class="spin"></div>연결 중...</div>
 
-  <!-- Step1 -->
   <div id="s1" style="display:none;">
-    <div class="card">
-      <div class="card-title">📅 회의 및 날짜 선택</div>
-      <p style="font-size:12px;color:var(--tm);margin-bottom:13px;">회의 선택 후 날짜 버튼을 탭하세요</p>
-      <div id="banners"><div class="loading"><div class="spin"></div></div></div>
-    </div>
-    <button class="btn btn-p no-print" id="s1Btn" onclick="goS2()" style="opacity:.4;pointer-events:none;">다음 →</button>
-  </div>
-
-  <!-- Step2 -->
-  <div id="s2" style="display:none;">
-    <div id="s2summary" class="card" style="background:linear-gradient(135deg,#c9714a,#e8956d);color:#fff;padding:13px 15px;"></div>
-    <div class="card">
-      <div class="card-title">👆 참석자 클릭 → 서명</div>
-      <div id="pickerArea"><div class="loading"><div class="spin"></div></div></div>
-      <div class="divider"></div>
-      <div style="font-size:12px;color:var(--tm);margin-bottom:8px;">명단에 없으면 직접 입력</div>
-      <div style="display:flex;gap:6px;">
-        <div class="sw" style="flex:0 0 100px;"><select class="fs" id="manRole" style="font-size:12px;padding:8px 9px;"><option value="교사">교사</option><option value="교사위원">교사위원</option><option value="위원장">위원장</option><option value="교장">교장</option><option value="교감">교감</option><option value="간사">간사</option><option value="학부모위원">학부모위원</option><option value="지역위원">지역위원</option><option value="위원">위원</option></select></div>
-        <input type="text" class="fi" id="manName" placeholder="이름 입력" style="flex:1;">
-        <button class="btn btn-o btn-sm" onclick="selManual()">선택</button>
-      </div>
-    </div>
-
-    <!-- 서명 영역 -->
-    <div id="sigArea" style="display:none;">
+    <div style="padding:16px 14px;max-width:540px;margin:0 auto;">
       <div class="card">
-        <div class="card-title">🖊️ 전자서명</div>
-        <div id="selInfo" style="display:flex;align-items:center;gap:9px;margin-bottom:11px;padding:9px 11px;background:var(--bg);border-radius:var(--rs);"></div>
-        <div class="sig-wrap" id="sigWrap"><canvas id="sigCanvas"></canvas><div class="sig-hint" id="sigHint">손가락 또는 마우스로 서명하세요</div></div>
-        <div style="display:flex;gap:7px;margin-top:8px;">
-          <button class="btn btn-o btn-sm no-print" onclick="clearSig()">↺ 다시 쓰기</button>
-          <button class="btn btn-o btn-sm no-print" style="margin-left:auto;" onclick="cancelSel()">✕ 취소</button>
-        </div>
+        <div class="card-title">📅 회의 및 날짜 선택</div>
+        <p style="font-size:12px;color:var(--tm);margin-bottom:13px;">회의를 선택한 후 날짜를 탭하세요</p>
+        <div id="banners"></div>
       </div>
-      <div style="display:flex;gap:7px;margin-bottom:13px;">
-        <button class="btn btn-o" style="width:auto;flex:1;" onclick="backS1()">← 이전</button>
-        <button class="btn btn-ok" style="flex:2;" onclick="submitSign()">✓ 서명 등록</button>
-      </div>
+      <button class="btn btn-p no-print" id="s1btn" onclick="goS2()" style="opacity:.4;pointer-events:none;">다음 →</button>
     </div>
-    <div id="s2back" style="margin-bottom:13px;"><button class="btn btn-o" onclick="backS1()">← 이전으로</button></div>
   </div>
 
-  <!-- Step3 완료 -->
-  <div id="s3" style="display:none;">
-    <div class="card">
-      <div class="success">
-        <div class="succ-icon">✓</div>
-        <div class="succ-title">서명 완료!</div>
-        <p id="succMsg" style="color:var(--tm);font-size:13px;"></p>
-        <img id="sigPreview" class="sig-preview" src="" alt="서명">
+  <div id="s2" style="display:none;">
+    <div style="padding:16px 14px;max-width:540px;margin:0 auto;">
+      <button onclick="goS1()" style="background:none;border:none;color:var(--tm);font-size:14px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;padding:4px 0;margin-bottom:13px;display:flex;align-items:center;gap:4px;">← 회의 다시 선택</button>
+      <div id="s2sum" class="card" style="background:linear-gradient(135deg,#c9714a,#e8956d);color:#fff;padding:13px 15px;"></div>
+      <div class="card">
+        <div class="card-title">👆 내 이름을 탭하세요</div>
+        <div id="memberList"></div>
         <div class="divider"></div>
-        <div id="succInfo" style="text-align:left;"></div>
-        <button class="btn btn-p" style="margin-top:13px;" onclick="resetSign()">+ 다른 사람 서명하기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── 현황 ── -->
-<div class="view" id="view-admin">
-  <div id="adminLocked">
-    <div class="pin-wrap">
-      <div style="font-size:42px;margin-bottom:13px;">🔐</div>
-      <div style="font-size:17px;font-weight:700;margin-bottom:6px;">관리자 전용</div>
-      <p style="color:var(--tm);font-size:13px;margin-bottom:16px;">비밀번호 4자리를 입력하세요</p>
-      <div class="pin-row">
-        <input type="password" class="pin-d" id="p1" maxlength="1" inputmode="numeric" oninput="pm(this,'p2')">
-        <input type="password" class="pin-d" id="p2" maxlength="1" inputmode="numeric" oninput="pm(this,'p3')" onkeydown="pb(event,'p1')">
-        <input type="password" class="pin-d" id="p3" maxlength="1" inputmode="numeric" oninput="pm(this,'p4')" onkeydown="pb(event,'p2')">
-        <input type="password" class="pin-d" id="p4" maxlength="1" inputmode="numeric" oninput="chkPin()" onkeydown="pb(event,'p3')">
-      </div>
-      <p id="pinErr" style="color:var(--err);font-size:12px;height:15px;"></p>
-    </div>
-  </div>
-  <div id="adminPanel" style="display:none;">
-    <div class="card no-print">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
-        <div style="font-weight:700;font-size:15px;">서명 현황</div>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-o btn-sm no-print" onclick="window.print()">🖨️ 인쇄</button>
-          <button class="btn btn-o btn-sm no-print" onclick="lockAdmin()">🔒 잠금</button>
+        <div style="font-size:12px;color:var(--tm);margin-bottom:8px;">이름이 없으면 직접 입력</div>
+        <div style="display:flex;gap:7px;">
+          <input type="text" id="manName" placeholder="이름 입력" style="flex:1;padding:10px 12px;border:1.5px solid var(--b);border-radius:var(--rs);font-size:14px;font-family:'Noto Sans KR',sans-serif;background:var(--bg);">
+          <button onclick="selManual()" style="padding:10px 14px;background:var(--p);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">선택</button>
         </div>
       </div>
-      <div class="frow" id="filterRow"><button class="fchip on" onclick="flt('all',this)">전체</button></div>
+      <div id="sigBox" style="display:none;">
+        <div class="card">
+          <div class="card-title">🖊️ 서명하세요</div>
+          <div id="selInfo" style="display:flex;align-items:center;gap:9px;margin-bottom:11px;padding:9px 11px;background:var(--bg);border-radius:var(--rs);"></div>
+          <div class="sig-wrap" id="sigWrap"><canvas id="sigCanvas"></canvas><div class="sig-hint" id="sigHint">손가락으로 서명하세요</div></div>
+          <div style="display:flex;gap:7px;margin-top:8px;">
+            <button onclick="clearSig()" style="flex:1;padding:9px;background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rs);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;">↺ 다시 쓰기</button>
+            <button onclick="cancelSel()" style="flex:1;padding:9px;background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rs);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;">✕ 취소</button>
+          </div>
+        </div>
+        <button class="btn btn-ok" onclick="submitSign()">✓ 서명 등록</button>
+      </div>
     </div>
-    <div id="adminContent"><div class="loading"><div class="spin"></div></div></div>
+  </div>
+
+  <div id="s3" style="display:none;">
+    <div style="padding:16px 14px;max-width:540px;margin:0 auto;">
+      <div class="card">
+        <div class="succ">
+          <div class="succ-icon">✓</div>
+          <div class="succ-title">서명 완료!</div>
+          <p id="succMsg" style="color:var(--tm);font-size:13px;margin-top:4px;"></p>
+          <img id="sigPrev" class="sig-prev" src="" alt="서명">
+          <div id="succInfo" style="text-align:left;margin-top:10px;"></div>
+          <button class="btn btn-p" style="margin-top:14px;" onclick="resetSign()">+ 다른 사람 서명하기</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ── 명단관리 ── -->
-<div class="view" id="view-members">
-  <div class="card">
-    <div class="card-title">🏢 부서·학년 추가</div>
-    <div style="display:flex;gap:6px;">
-      <input type="text" class="fi" id="newDept" placeholder="예: 1학년부, 교무부, 학교운영위원회" style="flex:1;">
-      <button class="btn btn-p btn-sm" onclick="addDept()">+ 추가</button>
+<!-- ── 관리자 영역 ── -->
+<div id="adminArea" style="display:none;">
+  <!-- 현황 -->
+  <div class="view on" id="view-admin">
+    <div id="adminLocked">
+      <div class="pin-wrap">
+        <div style="font-size:42px;margin-bottom:13px;">🔐</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:6px;">관리자 로그인</div>
+        <p style="color:var(--tm);font-size:13px;margin-bottom:16px;">비밀번호 4자리를 입력하세요</p>
+        <div class="pin-row">
+          <input type="password" class="pin-d" id="p1" maxlength="1" inputmode="numeric" oninput="pm(this,'p2')">
+          <input type="password" class="pin-d" id="p2" maxlength="1" inputmode="numeric" oninput="pm(this,'p3')" onkeydown="pb(event,'p1')">
+          <input type="password" class="pin-d" id="p3" maxlength="1" inputmode="numeric" oninput="pm(this,'p4')" onkeydown="pb(event,'p2')">
+          <input type="password" class="pin-d" id="p4" maxlength="1" inputmode="numeric" oninput="chkPin()" onkeydown="pb(event,'p3')">
+        </div>
+        <p id="pinErr" style="color:var(--err);font-size:12px;height:15px;"></p>
+      </div>
+    </div>
+    <div id="adminPanel" style="display:none;">
+      <div class="card no-print">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+          <div style="font-weight:700;font-size:15px;">서명 현황</div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-o btn-sm no-print" onclick="window.print()">🖨️ 인쇄</button>
+            <button class="btn btn-o btn-sm no-print" onclick="lockAdmin()">🔒 잠금</button>
+          </div>
+        </div>
+        <div class="frow" id="filterRow"><button class="fchip on" onclick="flt('all',this)">전체</button></div>
+      </div>
+      <div id="adminContent"><div class="loading"><div class="spin"></div></div></div>
     </div>
   </div>
-  <div id="deptList"><div class="loading"><div class="spin"></div></div></div>
-  <div class="card">
-    <div class="card-title">📋 회의별 참석 명단 지정</div>
-    <p style="font-size:12px;color:var(--tm);margin-bottom:11px;">각 회의에 사용할 부서를 체크하세요</p>
-    <div id="mtgAssign"><div class="loading"><div class="spin"></div></div></div>
-  </div>
-</div>
-
-<!-- ── 설정 ── -->
-<div class="view" id="view-settings">
-  <div class="card">
-    <div class="card-title">🏫 학교 기본 설정</div>
-    <div class="fg"><label class="fl">학교명</label><input type="text" class="fi" id="cfgSchool" placeholder="예: 곡선중학교"></div>
-    <div class="fg"><label class="fl">관리자 비밀번호 (4자리)</label><input type="password" class="fi" id="cfgPin" placeholder="예: 1234" maxlength="4" inputmode="numeric"></div>
-    <button class="btn btn-p" onclick="saveSchool()">저장</button>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 회의 관리</div>
-    <div id="mtgSettingList"><div class="loading"><div class="spin"></div></div></div>
-    <div class="divider"></div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-      <input type="text" class="fi" id="newMtgName" placeholder="회의 이름" style="flex:2;min-width:130px;">
-      <div class="sw" style="flex:1;min-width:85px;"><select class="fs" id="newMtgType"><option value="교직원">교직원</option><option value="학년부">학년부</option><option value="위원회">위원회</option><option value="기타">기타</option></select></div>
+  <!-- 명단관리 -->
+  <div class="view" id="view-members">
+    <div class="card">
+      <div class="card-title">🏢 부서·학년 추가</div>
+      <div style="display:flex;gap:6px;">
+        <input type="text" class="fi" id="newDept" placeholder="예: 1학년부, 교무부" style="flex:1;">
+        <button class="btn btn-p btn-sm" onclick="addDept()">+ 추가</button>
+      </div>
     </div>
-    <button class="btn btn-p" style="margin-top:7px;" onclick="addMeeting()">+ 회의 추가</button>
+    <div id="deptList"><div class="loading"><div class="spin"></div></div></div>
+    <div class="card">
+      <div class="card-title">📋 회의별 참석 명단 지정</div>
+      <p style="font-size:12px;color:var(--tm);margin-bottom:11px;">각 회의에 사용할 부서를 체크하세요</p>
+      <div id="mtgAssign"><div class="loading"><div class="spin"></div></div></div>
+    </div>
   </div>
-
-  <div class="card">
-    <div class="card-title">🔥 Firebase 재설정</div>
-    <input class="cfg-input" id="cfgApiKey" placeholder="apiKey">
-    <input class="cfg-input" id="cfgAuthDomain" placeholder="authDomain">
-    <input class="cfg-input" id="cfgDbURL" placeholder="databaseURL">
-    <input class="cfg-input" id="cfgProjectId" placeholder="projectId">
-    <button class="btn btn-p" onclick="saveFb()">연결하기</button>
+  <!-- 설정 -->
+  <div class="view" id="view-settings">
+    <div class="card">
+      <div class="card-title">🏫 학교 기본 설정</div>
+      <div class="fg"><label class="fl">학교명</label><input type="text" class="fi" id="cfgSchool" placeholder="예: 곡선중학교"></div>
+      <div class="fg"><label class="fl">관리자 비밀번호 (4자리)</label><input type="password" class="fi" id="cfgPin" placeholder="변경 시 입력" maxlength="4" inputmode="numeric"></div>
+      <button class="btn btn-p" onclick="saveSchool()">저장</button>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 회의 관리</div>
+      <div id="mtgSettingList"><div class="loading"><div class="spin"></div></div></div>
+      <div class="divider"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <input type="text" class="fi" id="newMtgName" placeholder="회의 이름" style="flex:2;min-width:130px;">
+        <div class="sw" style="flex:1;min-width:85px;"><select class="fs" id="newMtgType"><option value="교직원">교직원</option><option value="학년부">학년부</option><option value="위원회">위원회</option><option value="기타">기타</option></select></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:7px;" onclick="addMeeting()">+ 회의 추가</button>
+    </div>
+    <div class="card">
+      <div class="card-title">ℹ️ 앱 정보</div>
+      <div class="ir"><span class="l">버전</span><span class="v">2.1.0</span></div>
+    </div>
+    <div class="footer"><strong>© 2026 김정환 · M.A.D.T</strong><br>회의 전자서명 등록부 v2.1 · Made with ♥</div>
   </div>
-
-  <div class="card">
-    <div class="card-title">ℹ️ 앱 정보</div>
-    <div class="ir"><span class="l">버전</span><span class="v">2.1.0</span></div>
-    <div class="ir"><span class="l">저장소</span><span class="v">Firebase Realtime DB</span></div>
-  </div>
-  <div class="footer"><strong>© 2026 김정환 · M.A.D.T</strong><br>회의 전자서명 등록부 v2.1 · Made with ♥</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -400,7 +282,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">📅 날짜·시간 추가</div>
-    <div class="cal-hdr"><button class="cal-nav" onclick="calNav(-1)">‹</button><div class="cal-my" id="calMY"></div><button class="cal-nav" onclick="calNav(1)">›</button></div>
+    <div class="cal-hdr"><button class="cal-nav" onclick="calNav(-1)">‹</button><div style="font-weight:700;font-size:15px;" id="calMY"></div><button class="cal-nav" onclick="calNav(1)">›</button></div>
     <div class="cal-grid" id="calGrid"></div>
     <div class="time-row">
       <span style="font-size:13px;font-weight:600;color:var(--tm);">시간</span>
@@ -416,7 +298,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
   </div>
 </div>
 
-<!-- 멤버 추가/편집 모달 -->
+<!-- 멤버 모달 -->
 <div class="modal" id="memModal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -436,13 +318,28 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
 const LS={get:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
 window.toast=(msg,type='')=>{const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',2800)};
 
+const FB_CFG={apiKey:"AIzaSyDkdB4LJQR6dg5eVnG-Q7e8-aB_bkpV7Ls",authDomain:"ckarhks.firebaseapp.com",databaseURL:"https://ckarhks-default-rtdb.firebaseio.com",projectId:"ckarhks"};
+
 let db=null,_fb=null,adminOK=false,curFlt='all';
+let selMtg='',selSess='',selMemId='',selMemName='',selMemRole='';
 let sigOn=false,sigMark=false,sigCtx=null;
-let selMtg='',selSess='';
-let selMemId='',selMemName='',selMemRole='';
 let calY,calM,calDate=null,sessMtgId=null,memEditId=null;
 
-// ── 탭 ──
+// 관리자 토글
+window.toggleAdmin=()=>{
+  const aa=document.getElementById('adminArea');
+  const sa=document.getElementById('signArea');
+  const tabs=document.getElementById('adminTabs');
+  if(aa.style.display==='none'){
+    aa.style.display='block';sa.style.display='none';tabs.style.display='flex';
+    document.getElementById('adminBtn').textContent='✏️ 서명화면';
+    goTab('admin');
+  } else {
+    aa.style.display='none';sa.style.display='block';tabs.style.display='none';
+    document.getElementById('adminBtn').textContent='🔐 관리자';
+  }
+};
+
 window.goTab=tab=>{
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
@@ -451,82 +348,22 @@ window.goTab=tab=>{
   if(tab==='admin'&&adminOK)loadAdmin();
   if(tab==='settings')loadSettingsUI();
   if(tab==='members')loadMembers();
-  if(tab==='sign'&&db)renderS1();
 };
 
-// ── 마법사 ──
-function checkWizard(){
-  const school=LS.get('school_name');
-  const cfg=LS.get('fb_config');
-  if(!school||!cfg||!cfg.databaseURL){
-    document.getElementById('wizard').style.display='flex';
-  } else {
-    startApp();
-  }
-}
-
-window.wNext=async step=>{
-  if(step===1){
-    const school=document.getElementById('w_school').value.trim();
-    const pin=document.getElementById('w_pin').value.trim();
-    if(!school){toast('학교명을 입력하세요','err');return;}
-    if(!pin||!/^\d{4}$/.test(pin)){toast('4자리 숫자 비밀번호를 입력하세요','err');return;}
-    LS.set('school_name',school);
-    LS.set('admin_pin',pin);
-    await initFirebase();
-    document.getElementById('ws1').classList.remove('on');
-    document.getElementById('ws2').classList.add('on');
-    document.getElementById('sd1').classList.remove('on');document.getElementById('sd1').classList.add('done');
-    document.getElementById('sd2').classList.add('on');
-  } else if(step===2){
-    const ok=await initFirebase();
-    if(!ok){toast('Firebase 연결 실패','err');return;}
-    document.getElementById('ws2').classList.remove('on');
-    document.getElementById('ws3').classList.add('on');
-    document.getElementById('sd2').classList.remove('on');document.getElementById('sd2').classList.add('done');
-    document.getElementById('sd3').classList.add('on');
-  }
-};
-window.wPrev=step=>{
-  if(step===2){
-    document.getElementById('ws2').classList.remove('on');
-    document.getElementById('ws1').classList.add('on');
-    document.getElementById('sd2').classList.remove('on');
-    document.getElementById('sd1').classList.remove('done');document.getElementById('sd1').classList.add('on');
-  }
-};
-window.closeWizard=()=>{
-  document.getElementById('wizard').style.display='none';
-  startApp();
-};
-
-// ── Firebase ──
-async function initFirebase(){
-  const saved=LS.get('fb_config');
-  const cfg=(saved&&saved.databaseURL&&!saved.databaseURL.includes('apiKey'))?saved:{
-    apiKey:"AIzaSyDkdB4LJQR6dg5eVnG-Q7e8-aB_bkpV7Ls",
-    authDomain:"ckarhks.firebaseapp.com",
-    databaseURL:"https://ckarhks-default-rtdb.firebaseio.com",
-    projectId:"ckarhks"
-  };
+async function init(){
   try{
     const {initializeApp,getApps}=await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js');
     const {getDatabase,ref,push,get,set,remove,update}=await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js');
-    const app=getApps().length?getApps()[0]:initializeApp(cfg);
+    const app=getApps().length?getApps()[0]:initializeApp(FB_CFG);
     db=getDatabase(app);_fb={ref,push,get,set,remove,update};
-    return true;
-  }catch(e){console.error(e);return false;}
-}
-
-async function startApp(){
-  document.getElementById('signLoading').style.display='block';
-  const ok=await initFirebase();
-  document.getElementById('signLoading').style.display='none';
-  const school=LS.get('school_name')||'';
-  if(school){document.getElementById('hdrTitle').textContent=school+' 전자서명 등록부';document.getElementById('hdrSub').textContent=school;}
-  else{document.getElementById('hdrSub').textContent='설정에서 학교명을 입력하세요';}
-  if(ok){await initDefaults();renderS1();}
-  else{document.getElementById('s1').innerHTML='<div class="card" style="text-align:center;padding:28px 16px;"><div style="font-size:40px;margin-bottom:11px;">🔧</div><p style="font-size:13px;color:var(--tm);">설정 탭에서 Firebase를 연결해주세요.</p><button class="btn btn-p" style="margin-top:13px;max-width:170px;" onclick="goTab(\'settings\')">⚙️ 설정하러 가기</button></div>';document.getElementById('s1').style.display='block';}
+    document.getElementById('signLoading').style.display='none';
+    const school=LS.get('school_name')||'';
+    if(school){document.getElementById('hdrTitle').textContent=school+' 전자서명';document.getElementById('hdrSub').textContent=school;}
+    else{document.getElementById('hdrSub').textContent='서명하기';}
+    document.getElementById('adminBtn').style.display='block';
+    await initDefaults();
+    renderS1();
+  }catch(e){document.getElementById('signLoading').innerHTML='<p style="color:var(--err);text-align:center;">연결 실패. 잠시 후 다시 시도해주세요.</p>';console.error(e);}
 }
 
 async function initDefaults(){
@@ -546,41 +383,39 @@ const getDepts=async()=>{if(!db)return{};const s=await _fb.get(_fb.ref(db,'depts
 const getMems=async()=>{if(!db)return{};const s=await _fb.get(_fb.ref(db,'members'));return s.exists()?s.val():{}};
 const getSigs=async()=>{if(!db)return{};const s=await _fb.get(_fb.ref(db,'signatures'));return s.exists()?s.val():{}};
 
-// ── 서명 Step1 ──
+// 서명 Step1
 async function renderS1(){
   document.getElementById('s1').style.display='block';
   document.getElementById('s2').style.display='none';
   document.getElementById('s3').style.display='none';
-  selMtg='';selSess='';updS1Btn();
+  selMtg='';selSess='';updBtn();
   const mtgs=await getMtgs();
   const c=document.getElementById('banners');
-  if(!Object.keys(mtgs).length){c.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>설정 탭에서 회의를 추가하세요</p></div>';return;}
+  if(!Object.keys(mtgs).length){c.innerHTML='<div class="empty">📭<br><span style="font-size:13px;">설정에서 회의를 추가하세요</span></div>';return;}
   const grp={};Object.entries(mtgs).forEach(([id,m])=>{const t=m.type||'기타';if(!grp[t])grp[t]=[];grp[t].push({id,...m});});
   let html='';
   ['교직원','학년부','위원회','기타'].forEach(type=>{
     if(!grp[type])return;
     grp[type].sort((a,b)=>(a.order||99)-(b.order||99)).forEach(m=>{
       const sess=m.sessions?Object.entries(m.sessions).sort((a,b)=>b[1].raw.localeCompare(a[1].raw)):[];
-      const sh=sess.length?sess.map(([sk,sv])=>`<span class="sc" onclick="selSess('${m.id}','${sk}',this)">${sv.dateStr} ${sv.timeStr}</span>`).join(''):`<span class="no-sess">날짜 없음 — 설정에서 추가하세요</span>`;
-      html+=`<div class="banner" id="bn-${m.id}" onclick="selMtgF('${m.id}',this)"><div class="banner-name">${m.name}</div><div class="banner-type">${type}</div><div class="banner-sessions">${sh}</div></div>`;
+      const sh=sess.length?sess.map(([sk,sv])=>`<span class="sc" onclick="selSessF('${m.id}','${sk}',this)">${sv.dateStr} ${sv.timeStr}</span>`).join(''):`<span class="no-sess">날짜 없음</span>`;
+      html+=`<div class="banner" id="bn-${m.id}" onclick="selMtgF('${m.id}',this)"><div class="banner-name">${m.name}</div><div class="banner-type">${type}</div><div class="sess-list">${sh}</div></div>`;
     });
   });
   c.innerHTML=html;
 }
 
-window.selMtgF=(id,el)=>{selMtg=id;selSess='';document.querySelectorAll('.banner').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.querySelectorAll('.sc').forEach(c=>c.classList.remove('sel'));updS1Btn();};
-window.selSess=(mid,sk,el)=>{selMtg=mid;selSess=sk;document.querySelectorAll('.banner').forEach(b=>b.classList.remove('sel'));document.getElementById('bn-'+mid)?.classList.add('sel');document.querySelectorAll('.sc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');updS1Btn();};
-function updS1Btn(){const b=document.getElementById('s1Btn');const ok=selMtg&&selSess;b.style.opacity=ok?'1':'0.4';b.style.pointerEvents=ok?'all':'none';}
+window.selMtgF=(id,el)=>{selMtg=id;selSess='';document.querySelectorAll('.banner').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');document.querySelectorAll('.sc').forEach(c=>c.classList.remove('sel'));updBtn();};
+window.selSessF=(mid,sk,el)=>{selMtg=mid;selSess=sk;document.querySelectorAll('.banner').forEach(b=>b.classList.remove('sel'));document.getElementById('bn-'+mid)?.classList.add('sel');document.querySelectorAll('.sc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');updBtn();};
+function updBtn(){const b=document.getElementById('s1btn');const ok=selMtg&&selSess;b.style.opacity=ok?'1':'0.4';b.style.pointerEvents=ok?'all':'none';}
 
-// ── Step2 ──
 window.goS2=async()=>{
   document.getElementById('s1').style.display='none';
   document.getElementById('s2').style.display='block';
-  document.getElementById('sigArea').style.display='none';
-  document.getElementById('s2back').style.display='block';
+  document.getElementById('sigBox').style.display='none';
   selMemId='';selMemName='';selMemRole='';
   const mtgs=await getMtgs();const m=mtgs[selMtg];const sess=m?.sessions?.[selSess];
-  document.getElementById('s2summary').innerHTML=`<div style="font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;margin-bottom:3px;">${m?.name||''}</div><div style="font-size:12px;opacity:.8;">${sess?.dateStr||''} ${sess?.timeStr||''}</div>`;
+  document.getElementById('s2sum').innerHTML=`<div style="font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;margin-bottom:3px;">${m?.name||''}</div><div style="font-size:12px;opacity:.85;">${sess?.dateStr||''} ${sess?.timeStr||''}</div>`;
   const sigs=await getSigs();const signed=new Set();
   Object.values(sigs).forEach(s=>{if(s.meetingId===selMtg&&s.sessionKey===selSess)signed.add(s.memberId||'__'+s.name);});
   const depts=await getDepts();const mems=await getMems();
@@ -588,26 +423,26 @@ window.goS2=async()=>{
   let groups=[];
   if(assigned.length){assigned.forEach(did=>{const d=depts[did];if(!d)return;const dm=Object.entries(mems).filter(([,mem])=>mem.deptId===did).map(([id,mem])=>({id,...mem}));groups.push({deptName:d.name,members:dm});});}
   else{const dg={};Object.entries(mems).forEach(([id,mem])=>{const did=mem.deptId||'__none';const dn=depts[mem.deptId]?.name||'미분류';if(!dg[did])dg[did]={deptName:dn,members:[]};dg[did].members.push({id,...mem});});groups=Object.values(dg);}
-  const area=document.getElementById('pickerArea');
-  if(!groups.length||!Object.keys(mems).length){area.innerHTML='<div class="empty" style="padding:18px 0;"><div class="empty-icon">👥</div><p style="font-size:12px;">명단 탭에서 참석자를 등록하세요</p></div>';return;}
+  const ml=document.getElementById('memberList');
+  if(!groups.length||!Object.keys(mems).length){ml.innerHTML='<div class="empty" style="padding:14px 0;">👥<br><span style="font-size:12px;">관리자가 명단을 아직 등록하지 않았습니다</span></div>';return;}
   let html='';
   groups.forEach(g=>{
     html+=`<div style="margin-bottom:11px;"><div class="dept-lbl">🏷️ ${g.deptName}</div><div class="mgrid">`;
     g.members.forEach(mem=>{const s=signed.has(mem.id);const badge=s?'<div class="mc-badge">✓</div>':'';const oc=s?'':`onclick="pickMem('${mem.id}','${encodeURIComponent(mem.name)}','${mem.role||'교사'}')"`;html+=`<div class="${s?'mc signed':'mc'}" ${oc}>${badge}<div class="mc-name">${mem.name}</div><div class="mc-role">${mem.role||''}</div></div>`;});
     html+='</div></div>';
   });
-  area.innerHTML=html;
+  ml.innerHTML=html;
 };
-window.backS1=()=>{document.getElementById('s1').style.display='block';document.getElementById('s2').style.display='none';};
-window.pickMem=(id,nameEnc,role)=>{selMemId=id;selMemName=decodeURIComponent(nameEnc);selMemRole=role;document.querySelectorAll('.mc').forEach(c=>c.classList.remove('picking'));document.querySelectorAll('.mc').forEach(c=>{if(c.querySelector('.mc-name')?.textContent===selMemName)c.classList.add('picking');});openSigArea();};
-window.selManual=()=>{const name=document.getElementById('manName').value.trim();const role=document.getElementById('manRole').value;if(!name){toast('이름을 입력하세요','err');return;}selMemId='';selMemName=name;selMemRole=role;openSigArea();};
-function openSigArea(){document.getElementById('sigArea').style.display='block';document.getElementById('s2back').style.display='none';document.getElementById('selInfo').innerHTML=`<div style="width:36px;height:36px;border-radius:50%;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:17px;">👤</div><div><div style="font-weight:700;font-size:14px;">${selMemName}</div><div style="font-size:12px;color:var(--tm);">${selMemRole}</div></div>`;initCanvas();document.getElementById('sigArea').scrollIntoView({behavior:'smooth',block:'start'});}
-window.cancelSel=()=>{document.getElementById('sigArea').style.display='none';document.getElementById('s2back').style.display='block';selMemId='';selMemName='';selMemRole='';document.querySelectorAll('.mc').forEach(c=>c.classList.remove('picking'));};
 
-// ── 캔버스 ──
+window.goS1=()=>{document.getElementById('s1').style.display='block';document.getElementById('s2').style.display='none';};
+window.pickMem=(id,nameEnc,role)=>{selMemId=id;selMemName=decodeURIComponent(nameEnc);selMemRole=role;document.querySelectorAll('.mc').forEach(c=>c.classList.remove('picking'));document.querySelectorAll('.mc').forEach(c=>{if(c.querySelector('.mc-name')?.textContent===selMemName)c.classList.add('picking');});openSigBox();};
+window.selManual=()=>{const name=document.getElementById('manName').value.trim();if(!name){toast('이름을 입력하세요','err');return;}selMemId='';selMemName=name;selMemRole='교사';openSigBox();};
+function openSigBox(){document.getElementById('sigBox').style.display='block';document.getElementById('selInfo').innerHTML=`<div style="width:36px;height:36px;border-radius:50%;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:17px;">👤</div><div><div style="font-weight:700;font-size:14px;">${selMemName}</div><div style="font-size:12px;color:var(--tm);">${selMemRole}</div></div>`;initCanvas();document.getElementById('sigBox').scrollIntoView({behavior:'smooth',block:'start'});}
+window.cancelSel=()=>{document.getElementById('sigBox').style.display='none';selMemId='';selMemName='';selMemRole='';document.querySelectorAll('.mc').forEach(c=>c.classList.remove('picking'));};
+
 function initCanvas(){
   const cv=document.getElementById('sigCanvas');const wp=document.getElementById('sigWrap');
-  cv.width=wp.clientWidth*devicePixelRatio;cv.height=145*devicePixelRatio;
+  cv.width=wp.clientWidth*devicePixelRatio;cv.height=150*devicePixelRatio;
   sigCtx=cv.getContext('2d');sigCtx.scale(devicePixelRatio,devicePixelRatio);
   sigCtx.strokeStyle='#4a3020';sigCtx.lineWidth=2.5;sigCtx.lineCap='round';sigCtx.lineJoin='round';
   sigMark=false;document.getElementById('sigHint').style.display='block';wp.classList.remove('has-sig');
@@ -622,9 +457,7 @@ function initCanvas(){
 function hsh(){document.getElementById('sigHint').style.display='none';document.getElementById('sigWrap').classList.add('has-sig');sigMark=true;}
 window.clearSig=()=>{if(!sigCtx)return;const cv=document.getElementById('sigCanvas');sigCtx.clearRect(0,0,cv.width,cv.height);sigMark=false;document.getElementById('sigHint').style.display='block';document.getElementById('sigWrap').classList.remove('has-sig');};
 
-// ── 서명 제출 ──
 window.submitSign=async()=>{
-  if(!selMemName){toast('참석자를 선택하세요','err');return;}
   if(!sigMark){toast('서명을 해주세요','err');return;}
   const mtgs=await getMtgs();const m=mtgs[selMtg];const sess=m?.sessions?.[selSess];
   const cv=document.getElementById('sigCanvas');const sigData=cv.toDataURL('image/png',.7);
@@ -632,15 +465,15 @@ window.submitSign=async()=>{
   try{
     await _fb.push(_fb.ref(db,'signatures'),rec);
     document.getElementById('s2').style.display='none';document.getElementById('s3').style.display='block';
-    document.getElementById('succMsg').textContent=`${selMemName} 위원 서명이 등록되었습니다.`;
-    document.getElementById('sigPreview').src=sigData;
-    document.getElementById('succInfo').innerHTML=`<div class="ir"><span class="l">회의</span><span class="v">${m?.name||''}</span></div><div class="ir"><span class="l">일시</span><span class="v">${sess?.dateStr||''} ${sess?.timeStr||''}</span></div><div class="ir"><span class="l">구분</span><span class="v">${selMemRole}</span></div><div class="ir"><span class="l">성명</span><span class="v">${selMemName}</span></div>`;
-    toast('서명이 등록되었습니다 ✓','ok');
+    document.getElementById('succMsg').textContent=`${selMemName}님 서명이 등록되었습니다.`;
+    document.getElementById('sigPrev').src=sigData;
+    document.getElementById('succInfo').innerHTML=`<div class="ir"><span class="l">회의</span><span class="v">${m?.name||''}</span></div><div class="ir"><span class="l">일시</span><span class="v">${sess?.dateStr||''} ${sess?.timeStr||''}</span></div>`;
+    toast('서명 완료! ✓','ok');
   }catch(e){toast('오류: '+e.message,'err');}
 };
 window.resetSign=()=>{document.getElementById('s3').style.display='none';renderS1();};
 
-// ── PIN ──
+// PIN
 window.pm=(el,nid)=>{if(el.value.length===1&&nid)document.getElementById(nid).focus();};
 window.pb=(e,pid)=>{if(e.key==='Backspace'&&!e.target.value)document.getElementById(pid).focus();};
 window.chkPin=()=>{
@@ -651,7 +484,7 @@ window.chkPin=()=>{
 };
 window.lockAdmin=()=>{adminOK=false;document.getElementById('adminLocked').style.display='block';document.getElementById('adminPanel').style.display='none';};
 
-// ── 관리자 현황 ──
+// 현황
 async function loadAdmin(){
   if(!db)return;const[sigs,mtgs]=await Promise.all([getSigs(),getMtgs()]);
   const fr=document.getElementById('filterRow');
@@ -665,7 +498,7 @@ function renderAdmin(sigs){
   const c=document.getElementById('adminContent');
   let entries=Object.entries(sigs);
   if(curFlt!=='all')entries=entries.filter(([,s])=>s.meetingId===curFlt);
-  if(!entries.length){c.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>등록된 서명이 없습니다.</p></div>';return;}
+  if(!entries.length){c.innerHTML='<div class="empty">📭<br>등록된 서명이 없습니다.</div>';return;}
   const grps={};entries.forEach(([id,s])=>{const k=s.meetingId+'|'+(s.sessionKey||s.dateStr||'');if(!grps[k])grps[k]={name:s.meetingName,date:s.dateStr||'',time:s.timeStr||'',sigs:[]};grps[k].sigs.push({id,...s});});
   const rc=r=>r==='위원장'||r==='학교운영위원장'?'chair':r==='교장'||r==='교감'?'boss':'';
   let html='';
@@ -678,10 +511,9 @@ function renderAdmin(sigs){
 }
 window.delSig=async id=>{if(!confirm('이 서명을 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'signatures/'+id));toast('삭제되었습니다');loadAdmin();};
 
-// ── 명단관리 ──
+// 명단관리
 async function loadMembers(){
-  if(!db){toast('Firebase 연결 필요','err');return;}
-  await renderDepts();await renderMtgAssign();
+  if(!db)return;await renderDepts();await renderMtgAssign();
 }
 async function renderDepts(){
   const depts=await getDepts();const mems=await getMems();const c=document.getElementById('deptList');
@@ -703,16 +535,15 @@ async function renderMtgAssign(){
   Object.entries(mtgs).sort((a,b)=>(a[1].order||0)-(b[1].order||0)).forEach(([mid,m])=>{
     const assigned=m.assignedDepts||[];
     html+=`<div style="margin-bottom:13px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">${m.name}</div><div style="display:flex;flex-wrap:wrap;gap:5px;">`;
-    Object.entries(depts).forEach(([did,d])=>{const ck=assigned.includes(did);html+=`<label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;background:${ck?'var(--pl)':'var(--bg)'};border:1.5px solid ${ck?'var(--p)':'var(--b)'};border-radius:20px;padding:4px 11px;transition:all .15s;"><input type="checkbox" ${ck?'checked':''} onchange="togAssign('${mid}','${did}',this.checked)" style="display:none;">${d.name}</label>`;});
+    Object.entries(depts).forEach(([did,d])=>{const ck=assigned.includes(did);html+=`<label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;background:${ck?'var(--pl)':'var(--bg)'};border:1.5px solid ${ck?'var(--p)':'var(--b)'};border-radius:20px;padding:4px 11px;"><input type="checkbox" ${ck?'checked':''} onchange="togAssign('${mid}','${did}',this.checked)" style="display:none;">${d.name}</label>`;});
     html+='</div></div>';
   });
   c.innerHTML=html;
 }
-window.togAssign=async(mid,did,ck)=>{const mtgs=await getMtgs();const m=mtgs[mid];let a=m.assignedDepts||[];if(ck&&!a.includes(did))a.push(did);if(!ck)a=a.filter(d=>d!==did);await _fb.update(_fb.ref(db,'meetings/'+mid),{assignedDepts:a});toast('저장되었습니다 ✓','ok');await renderMtgAssign();};
-window.addDept=async()=>{const name=document.getElementById('newDept').value.trim();if(!name){toast('부서명을 입력하세요','err');return;}if(!db){toast('Firebase 연결 필요','err');return;}const d=await getDepts();const mo=Object.values(d).reduce((m,v)=>Math.max(m,v.order||0),0);await _fb.push(_fb.ref(db,'depts'),{name,order:mo+1});document.getElementById('newDept').value='';toast('추가되었습니다 ✓','ok');await renderDepts();await renderMtgAssign();};
-window.delDept=async did=>{if(!confirm('부서를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'depts/'+did));toast('삭제되었습니다');await renderDepts();};
-window.delMem=async mid=>{if(!confirm('멤버를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'members/'+mid));toast('삭제되었습니다');await renderDepts();};
-
+window.togAssign=async(mid,did,ck)=>{const mtgs=await getMtgs();const m=mtgs[mid];let a=m.assignedDepts||[];if(ck&&!a.includes(did))a.push(did);if(!ck)a=a.filter(d=>d!==did);await _fb.update(_fb.ref(db,'meetings/'+mid),{assignedDepts:a});toast('저장 ✓','ok');await renderMtgAssign();};
+window.addDept=async()=>{const name=document.getElementById('newDept').value.trim();if(!name){toast('부서명을 입력하세요','err');return;}const d=await getDepts();const mo=Object.values(d).reduce((m,v)=>Math.max(m,v.order||0),0);await _fb.push(_fb.ref(db,'depts'),{name,order:mo+1});document.getElementById('newDept').value='';toast('추가 ✓','ok');await renderDepts();await renderMtgAssign();};
+window.delDept=async did=>{if(!confirm('부서를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'depts/'+did));toast('삭제됨');await renderDepts();};
+window.delMem=async mid=>{if(!confirm('멤버를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'members/'+mid));toast('삭제됨');await renderDepts();};
 window.openMemModal=async(memId,deptId)=>{
   memEditId=memId;const depts=await getDepts();
   const sel=document.getElementById('mmDept');sel.innerHTML='';
@@ -730,14 +561,13 @@ window.saveMem=async()=>{
   const data={name,role,deptId,note,order:memEditId?(mems[memEditId]?.order||mo+1):mo+1};
   if(memEditId)await _fb.update(_fb.ref(db,'members/'+memEditId),data);
   else await _fb.push(_fb.ref(db,'members'),data);
-  closeMemModal();toast('저장되었습니다 ✓','ok');await renderDepts();
+  closeMemModal();toast('저장 ✓','ok');await renderDepts();
 };
 
-// ── 설정 UI ──
+// 설정
 function loadSettingsUI(){
-  const s=LS.get('school_name')||'';const pin=LS.get('admin_pin')||'';const cfg=LS.get('fb_config')||{};
-  document.getElementById('cfgSchool').value=s;document.getElementById('cfgPin').value=pin;
-  document.getElementById('cfgApiKey').value=cfg.apiKey||'';document.getElementById('cfgAuthDomain').value=cfg.authDomain||'';document.getElementById('cfgDbURL').value=cfg.databaseURL||'';document.getElementById('cfgProjectId').value=cfg.projectId||'';
+  const school=LS.get('school_name')||'';
+  document.getElementById('cfgSchool').value=school;
   if(db)loadMtgSettings();
 }
 async function loadMtgSettings(){
@@ -746,20 +576,25 @@ async function loadMtgSettings(){
   let html='';
   Object.entries(mtgs).sort((a,b)=>(a[1].order||0)-(b[1].order||0)).forEach(([mid,m])=>{
     const sess=m.sessions?Object.entries(m.sessions).sort((a,b)=>b[1].raw.localeCompare(a[1].raw)):[];
-    html+=`<div style="margin-bottom:13px;border:1px solid var(--b);border-radius:var(--rs);overflow:hidden;"><div style="background:var(--bg2);padding:9px 12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:700;font-size:13px;">${m.name}</div><div style="font-size:11px;color:var(--tm);">${m.type}</div></div><div style="display:flex;gap:5px;"><button class="btn btn-p btn-xs" onclick="openSessModal('${mid}')">+ 날짜 추가</button><button class="btn-del" onclick="delMtg('${mid}')">삭제</button></div></div><div style="padding:7px 12px;">`;
-    if(sess.length)sess.forEach(([sk,sv])=>{html+=`<div class="si"><div><div style="font-weight:600;font-size:13px;">📅 ${sv.dateStr}</div><div style="font-size:11px;color:var(--tm);">⏰ ${sv.timeStr||'시간 미지정'}</div></div><button class="btn-del" onclick="delSess('${mid}','${sk}')">삭제</button></div>`;});
+    html+=`<div style="margin-bottom:13px;border:1px solid var(--b);border-radius:var(--rs);overflow:hidden;"><div style="background:var(--bg2);padding:9px 12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:700;font-size:13px;">${m.name}</div><div style="font-size:11px;color:var(--tm);">${m.type}</div></div><div style="display:flex;gap:5px;"><button class="btn btn-p btn-xs" onclick="openSessModal('${mid}')">+ 날짜</button><button class="btn-del" onclick="delMtg('${mid}')">삭제</button></div></div><div style="padding:7px 12px;">`;
+    if(sess.length)sess.forEach(([sk,sv])=>{html+=`<div class="si"><div><div style="font-weight:600;font-size:13px;">📅 ${sv.dateStr}</div><div style="font-size:11px;color:var(--tm);">⏰ ${sv.timeStr}</div></div><button class="btn-del" onclick="delSess('${mid}','${sk}')">삭제</button></div>`;});
     else html+='<p style="font-size:12px;color:var(--tm);padding:3px 0;">날짜 없음</p>';
     html+='</div></div>';
   });
   c.innerHTML=html;
 }
-window.addMeeting=async()=>{const name=document.getElementById('newMtgName').value.trim();const type=document.getElementById('newMtgType').value;if(!name){toast('회의 이름을 입력하세요','err');return;}if(!db){toast('Firebase 연결 필요','err');return;}const mtgs=await getMtgs();const mo=Object.values(mtgs).reduce((m,v)=>Math.max(m,v.order||0),0);await _fb.push(_fb.ref(db,'meetings'),{name,type,order:mo+1,sessions:{}});document.getElementById('newMtgName').value='';toast('추가되었습니다 ✓','ok');loadMtgSettings();};
-window.delMtg=async id=>{if(!confirm('회의를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'meetings/'+id));toast('삭제되었습니다');loadMtgSettings();};
-window.delSess=async(mid,sk)=>{if(!confirm('이 날짜를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,`meetings/${mid}/sessions/${sk}`));toast('삭제되었습니다');loadMtgSettings();};
-window.saveSchool=()=>{const s=document.getElementById('cfgSchool').value.trim();const pin=document.getElementById('cfgPin').value.trim();if(pin&&!/^\d{4}$/.test(pin)){toast('PIN은 4자리 숫자','err');return;}if(s){LS.set('school_name',s);document.getElementById('hdrTitle').textContent=s+' 전자서명 등록부';document.getElementById('hdrSub').textContent=s;}if(pin)LS.set('admin_pin',pin);toast('저장되었습니다 ✓','ok');};
-window.saveFb=async()=>{const apiKey=document.getElementById('cfgApiKey').value.trim();const databaseURL=document.getElementById('cfgDbURL').value.trim();if(!apiKey||!databaseURL){toast('apiKey와 databaseURL은 필수','err');return;}const authDomain=document.getElementById('cfgAuthDomain').value.trim();const projectId=document.getElementById('cfgProjectId').value.trim();LS.set('fb_config',{apiKey,authDomain,databaseURL,projectId});toast('저장됩니다. 새로고침...','ok');setTimeout(()=>location.reload(),1500);};
+window.addMeeting=async()=>{const name=document.getElementById('newMtgName').value.trim();const type=document.getElementById('newMtgType').value;if(!name){toast('회의 이름을 입력하세요','err');return;}const mtgs=await getMtgs();const mo=Object.values(mtgs).reduce((m,v)=>Math.max(m,v.order||0),0);await _fb.push(_fb.ref(db,'meetings'),{name,type,order:mo+1,sessions:{}});document.getElementById('newMtgName').value='';toast('추가 ✓','ok');loadMtgSettings();};
+window.delMtg=async id=>{if(!confirm('회의를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,'meetings/'+id));toast('삭제됨');loadMtgSettings();};
+window.delSess=async(mid,sk)=>{if(!confirm('이 날짜를 삭제하시겠습니까?'))return;await _fb.remove(_fb.ref(db,`meetings/${mid}/sessions/${sk}`));toast('삭제됨');loadMtgSettings();};
+window.saveSchool=async()=>{
+  const s=document.getElementById('cfgSchool').value.trim();const pin=document.getElementById('cfgPin').value.trim();
+  if(pin&&!/^\d{4}$/.test(pin)){toast('PIN은 4자리 숫자','err');return;}
+  if(s){LS.set('school_name',s);document.getElementById('hdrTitle').textContent=s+' 전자서명';document.getElementById('hdrSub').textContent=s;}
+  if(pin)LS.set('admin_pin',pin);
+  toast('저장 ✓','ok');
+};
 
-// ── 세션 모달 (캘린더) ──
+// 캘린더
 window.openSessModal=mid=>{sessMtgId=mid;calDate=null;const now=new Date();calY=now.getFullYear();calM=now.getMonth();renderCal();const sh=document.getElementById('tH');const sm=document.getElementById('tM');sh.innerHTML='';sm.innerHTML='';for(let h=7;h<=22;h++){const o=document.createElement('option');o.value=String(h).padStart(2,'0');o.textContent=String(h).padStart(2,'0')+'시';if(h===14)o.selected=true;sh.appendChild(o);}['00','10','20','30','40','50'].forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m+'분';sm.appendChild(o);});document.getElementById('calSel').textContent='';document.getElementById('sessModal').classList.add('open');};
 window.closeSessModal=()=>document.getElementById('sessModal').classList.remove('open');
 window.calNav=d=>{calM+=d;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();};
@@ -781,16 +616,10 @@ function renderCal(){
     g.appendChild(el);
   }
 }
-window.confirmSess=async()=>{if(!calDate){toast('날짜를 선택하세요','err');return;}const h=document.getElementById('tH').value;const m=document.getElementById('tM').value;const timeStr=`${h}:${m}`;const d=new Date(calDate);const dateStr=`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;await _fb.push(_fb.ref(db,`meetings/${sessMtgId}/sessions`),{dateStr,timeStr,raw:calDate});closeSessModal();toast('날짜가 추가되었습니다 ✓','ok');loadMtgSettings();};
+window.confirmSess=async()=>{if(!calDate){toast('날짜를 선택하세요','err');return;}const h=document.getElementById('tH').value;const m=document.getElementById('tM').value;const timeStr=`${h}:${m}`;const d=new Date(calDate);const dateStr=`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;await _fb.push(_fb.ref(db,`meetings/${sessMtgId}/sessions`),{dateStr,timeStr,raw:calDate});closeSessModal();toast('날짜 추가 ✓','ok');loadMtgSettings();};
 
-// ── 모달 바깥 클릭 닫기 ──
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
-
-// ── 학교명 초기 적용 ──
-const sn=LS.get('school_name');if(sn){document.getElementById('hdrTitle').textContent=sn+' 전자서명 등록부';document.getElementById('hdrSub').textContent=sn;}
-
-// ── 시작 ──
-checkWizard();
+init();
 </script>
 </body>
 </html>
