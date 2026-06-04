@@ -216,14 +216,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
     <!-- Step 2: Firebase -->
     <div class="wizard-step" id="ws2">
       <div class="hint-box">
-        <strong>Firebase 설정값이 필요해요.</strong><br>
-        ① <a href="https://console.firebase.google.com" target="_blank" style="color:var(--pd)">console.firebase.google.com</a><br>
-        ② 프로젝트 설정(톱니) → 일반 → 웹앱 → 설정값 복사
+        Firebase 콘솔 → Realtime Database 화면 상단 주소를 복사해서 붙여넣으세요.<br>
+        예: <span style="color:var(--pd);font-weight:600;">https://내프로젝트-default-rtdb.firebaseio.com</span>
       </div>
-      <input class="cfg-input" id="w_apiKey" placeholder="apiKey">
-      <input class="cfg-input" id="w_authDomain" placeholder="authDomain">
-      <input class="cfg-input" id="w_databaseURL" placeholder="databaseURL ← 필수!">
-      <input class="cfg-input" id="w_projectId" placeholder="projectId">
+      <input class="cfg-input" id="w_databaseURL" placeholder="https://....firebaseio.com">
       <div style="display:flex;gap:8px;">
         <button class="btn btn-o" style="flex:1;width:auto;" onclick="wPrev(2)">← 이전</button>
         <button class="btn btn-p" style="flex:2;" onclick="wNext(2)">🔥 연결하기</button>
@@ -496,11 +492,18 @@ window.wNext=async step=>{
     document.getElementById('sd1').classList.remove('on');document.getElementById('sd1').classList.add('done');
     document.getElementById('sd2').classList.add('on');
   } else if(step===2){
-    const apiKey=document.getElementById('w_apiKey').value.trim();
-    const authDomain=document.getElementById('w_authDomain').value.trim();
     const databaseURL=document.getElementById('w_databaseURL').value.trim();
-    const projectId=document.getElementById('w_projectId').value.trim();
-    if(!apiKey||!databaseURL){toast('apiKey와 databaseURL은 필수입니다','err');return;}
+    if(!databaseURL||!databaseURL.includes('firebaseio.com')){toast('올바른 주소를 입력하세요','err');return;}
+    // databaseURL에서 projectId 자동 추출
+    const projectId=databaseURL.replace('https://','').replace('-default-rtdb.firebaseio.com','').replace('.firebaseio.com','');
+    const authDomain=projectId+'.firebaseapp.com';
+    // apiKey는 공개 엔드포인트로 자동 조회
+    let apiKey='';
+    try{
+      const res=await fetch(`https://${projectId}.firebaseapp.com/__/firebase/init.json`);
+      const json=await res.json();
+      apiKey=json.apiKey||'';
+    }catch(e){}
     LS.set('fb_config',{apiKey,authDomain,databaseURL,projectId});
     const ok=await initFirebase();
     if(!ok){toast('Firebase 연결 실패. 값을 다시 확인해주세요','err');return;}
