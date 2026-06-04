@@ -203,7 +203,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
     <div class="step-dots">
       <div class="sdot on" id="sd1"></div>
       <div class="sdot" id="sd2"></div>
-      <div class="sdot" id="sd3"></div>
     </div>
 
     <!-- Step 1: 학교명 + PIN -->
@@ -213,21 +212,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);m
       <button class="btn btn-p" onclick="wNext(1)">다음 →</button>
     </div>
 
-    <!-- Step 2: Firebase -->
+    <!-- Step 2: 완료 -->
     <div class="wizard-step" id="ws2">
-      <div class="hint-box">
-        Firebase 콘솔 → Realtime Database 화면 상단 주소를 복사해서 붙여넣으세요.<br>
-        예: <span style="color:var(--pd);font-weight:600;">https://내프로젝트-default-rtdb.firebaseio.com</span>
-      </div>
-      <input class="cfg-input" id="w_databaseURL" placeholder="https://....firebaseio.com">
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-o" style="flex:1;width:auto;" onclick="wPrev(2)">← 이전</button>
-        <button class="btn btn-p" style="flex:2;" onclick="wNext(2)">🔥 연결하기</button>
-      </div>
-    </div>
-
-    <!-- Step 3: 완료 -->
-    <div class="wizard-step" id="ws3">
       <div style="text-align:center;padding:10px 0 20px;">
         <div style="font-size:52px;margin-bottom:12px;">🎉</div>
         <div style="font-size:18px;font-weight:700;margin-bottom:8px;">설정 완료!</div>
@@ -487,24 +473,19 @@ window.wNext=async step=>{
     if(!pin||!/^\d{4}$/.test(pin)){toast('4자리 숫자 비밀번호를 입력하세요','err');return;}
     LS.set('school_name',school);
     LS.set('admin_pin',pin);
+    await initFirebase();
     document.getElementById('ws1').classList.remove('on');
     document.getElementById('ws2').classList.add('on');
     document.getElementById('sd1').classList.remove('on');document.getElementById('sd1').classList.add('done');
     document.getElementById('sd2').classList.add('on');
   } else if(step===2){
-    const databaseURL=document.getElementById('w_databaseURL').value.trim();
-    if(!databaseURL||!databaseURL.includes('firebaseio.com')){toast('올바른 주소를 입력하세요','err');return;}
-    // databaseURL에서 projectId 자동 추출
-    const projectId=databaseURL.replace('https://','').replace('-default-rtdb.firebaseio.com','').replace('.firebaseio.com','');
-    const authDomain=projectId+'.firebaseapp.com';
-    // apiKey는 공개 엔드포인트로 자동 조회
-    let apiKey='';
-    try{
-      const res=await fetch(`https://${projectId}.firebaseapp.com/__/firebase/init.json`);
-      const json=await res.json();
-      apiKey=json.apiKey||'';
-    }catch(e){}
-    LS.set('fb_config',{apiKey,authDomain,databaseURL,projectId});
+    const ok=await initFirebase();
+    if(!ok){toast('Firebase 연결 실패','err');return;}
+    document.getElementById('ws2').classList.remove('on');
+    document.getElementById('ws3').classList.add('on');
+    document.getElementById('sd2').classList.remove('on');document.getElementById('sd2').classList.add('done');
+    document.getElementById('sd3').classList.add('on');
+  }
     const ok=await initFirebase();
     if(!ok){toast('Firebase 연결 실패. 값을 다시 확인해주세요','err');return;}
     document.getElementById('ws2').classList.remove('on');
@@ -528,8 +509,13 @@ window.closeWizard=()=>{
 
 // ── Firebase ──
 async function initFirebase(){
-  const cfg=LS.get('fb_config');
-  if(!cfg||!cfg.databaseURL)return false;
+  const saved=LS.get('fb_config');
+  const cfg=(saved&&saved.databaseURL&&!saved.databaseURL.includes('apiKey'))?saved:{
+    apiKey:"AIzaSyDkdB4LJQR6dg5eVnG-Q7e8-aB_bkpV7Ls",
+    authDomain:"ckarhks.firebaseapp.com",
+    databaseURL:"https://ckarhks-default-rtdb.firebaseio.com",
+    projectId:"ckarhks"
+  };
   try{
     const {initializeApp,getApps}=await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js');
     const {getDatabase,ref,push,get,set,remove,update}=await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js');
