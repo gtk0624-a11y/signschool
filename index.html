@@ -486,13 +486,6 @@ window.wNext=async step=>{
     document.getElementById('sd2').classList.remove('on');document.getElementById('sd2').classList.add('done');
     document.getElementById('sd3').classList.add('on');
   }
-    const ok=await initFirebase();
-    if(!ok){toast('Firebase 연결 실패. 값을 다시 확인해주세요','err');return;}
-    document.getElementById('ws2').classList.remove('on');
-    document.getElementById('ws3').classList.add('on');
-    document.getElementById('sd2').classList.remove('on');document.getElementById('sd2').classList.add('done');
-    document.getElementById('sd3').classList.add('on');
-  }
 };
 window.wPrev=step=>{
   if(step===2){
